@@ -1,25 +1,45 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, SignInResponse } from "next-auth/react";
 import { useRef } from "react";
 import { toast, Id } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 const LoginCard = () => {
 	const [username, setUsername] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const toastID = useRef<Id>();
-	const router = useRouter()
+	const router = useRouter();
+	const { status } = useSession();
+
+	useEffect(() => {
+		if (status !== "loading") {
+			if (status === "authenticated") router.push("/");
+		}
+	}, [status]);
 
 	const handleSubmit = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		toastID.current = toast.loading("Logging in...");
-		const res = await signIn("credentials", {
-			username: username,
-			password: password,
-			redirect: false,
-		})
-			.then((res) => {
+		if (username === "" || password === "")
+			return toast.update(toastID.current ?? "", {
+				render: "Please fill out the fields!",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeButton: true,
+				type: "error",
+				isLoading: false,
+			});
+
+		try {
+			const res = await signIn("credentials", {
+				username: username,
+				password: password,
+				redirect: false,
+			});
+
+			if (res?.status === 200) {
 				toast.update(toastID.current ?? "", {
 					render: "Successfully logged in!",
 					autoClose: 3000,
@@ -28,19 +48,27 @@ const LoginCard = () => {
 					type: "success",
 					isLoading: false,
 				});
-				router.push('/')
-			})
-			.catch((e) => {
+				router.push("/");
+			} else {
 				toast.update(toastID.current ?? "", {
-					render: "Something went wrong!",
+					render: res?.error,
 					autoClose: 3000,
 					hideProgressBar: false,
 					closeButton: true,
 					type: "error",
 					isLoading: false,
 				});
+			}
+		} catch (e) {
+			toast.update(toastID.current ?? "", {
+				render: "Something went wrong!",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeButton: true,
+				type: "error",
+				isLoading: false,
 			});
-		console.log(res);
+		}
 	};
 
 	return (

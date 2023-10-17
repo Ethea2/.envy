@@ -16,7 +16,11 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	envs: [
+	img: {
+		type: String,
+		required: true,
+	},
+	projects: [
 		{
 			type: mongoose.Types.ObjectId,
 			ref: "Env",

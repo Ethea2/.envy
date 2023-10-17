@@ -7,6 +7,7 @@ import { Resend } from "resend";
 const BCRYPT_SALT_ROUNDS = 12;
 
 const resend = new Resend(process.env.RESEND_KEY);
+const DEFAULT_IMAGE = "https://res.cloudinary.com/dtocowzq2/image/upload/v1697515297/CYBERZ/tr1qkg2qog7yrxggifvu.jpg"
 
 export const POST = async (req: Request) => {
 	const { username, password, email } = await req.json();
@@ -36,6 +37,7 @@ export const POST = async (req: Request) => {
 			username,
 			password: hashedPass,
 			email,
+			img: DEFAULT_IMAGE
 		});
 
 		return NextResponse.json({ message: "Successfully registered!" });

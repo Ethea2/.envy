@@ -23,10 +23,12 @@ const authOptions: NextAuthOptions = {
 				if (!match) {
 					throw new Error("Wrong password");
 				}
+				console.log(user)
 				return {
 					name: user.username,
 					email: user.email,
 					id: user._id,
+					image: user.img
 				};
 			},
 		}),
