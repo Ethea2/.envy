@@ -17,7 +17,7 @@ const useRegister = () => {
 		await axios({
 			method: "POST",
 			data: { username, password, email },
-			url: process.env.NEXT_PUBLIC_API_URL + "/auth/signup",
+			url: "/api/auth/signup",
 		})
 			.then((res) => {
 				setStatus("success");
@@ -29,7 +29,6 @@ const useRegister = () => {
 					type: "success",
 					isLoading: false,
 				});
-				console.log(res);
 				router.push("/login");
 			})
 			.catch((e) => {

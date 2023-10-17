@@ -19,8 +19,7 @@ const LoginCard = () => {
 		}
 	}, [status]);
 
-	const handleSubmit = async (e: React.MouseEvent) => {
-		e.preventDefault();
+	const login = async () => {
 		toastID.current = toast.loading("Logging in...");
 		if (username === "" || password === "")
 			return toast.update(toastID.current ?? "", {
@@ -70,7 +69,16 @@ const LoginCard = () => {
 			});
 		}
 	};
+	const handleSubmit = async (e: React.MouseEvent) => {
+		e.preventDefault();
+		login()
+	};
 
+	const handleEnter = (e: React.KeyboardEvent) => {
+		if(e.key === 'Enter') {
+			login()
+		}
+	}
 	return (
 		<div className="w-full h-full md:h-1/2 md:w-1/2 border-2 flex flex-col gap-5 justify-center items-center bg-gradient-to-b from-base-100 to-secondary-focus">
 			<div className="text-2xl md:text-5xl">Welcome back!</div>
@@ -87,6 +95,7 @@ const LoginCard = () => {
 				className="input input-bordered w-full max-w-xs"
 				value={password}
 				onChange={(e) => setPassword(e.target.value)}
+				onKeyDown={(e) => handleEnter(e)}
 			/>
 			<button
 				className="btn btn-primary"

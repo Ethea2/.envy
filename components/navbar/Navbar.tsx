@@ -1,5 +1,6 @@
+"use client";
 import { AnimatePresence, motion } from "framer-motion";
-import { ReactNode, useState, SetStateAction } from "react";
+import { ReactNode, useState, SetStateAction, useEffect } from "react";
 import {
 	SiFramer,
 	SiTailwindcss,
@@ -8,11 +9,12 @@ import {
 	SiCss3,
 } from "react-icons/si";
 import { RiLogoutBoxRFill } from "react-icons/ri";
-import {AiFillCloseSquare} from "react-icons/ai"
+import { AiFillCloseSquare } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
 import { signOut } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const navVariants = {
 	open: {
@@ -38,11 +40,18 @@ const buttonVariants = {
 		x: "-100%",
 		opacity: 0,
 	},
-}
+};
 
 const Navbar = () => {
 	const [selected, setSelected] = useState(0);
 	const [isOpen, setIsOpen] = useState(false);
+	const router = useRouter();
+	const { data: session, status } = useSession();
+	useEffect(() => {
+		if (status !== "loading") {
+			if (status !== "authenticated") router.push("/login");
+		}
+	}, [status]);
 
 	return (
 		<>
@@ -50,7 +59,7 @@ const Navbar = () => {
 				whileHover={{ rotate: "180deg" }}
 				whileTap={{ scale: 0.9 }}
 				onClick={() => setIsOpen(true)}
-                animate={isOpen ? "closed" : "open"}
+				animate={isOpen ? "closed" : "open"}
 				variants={buttonVariants}
 				className="text-3xl fixed bg-base-300 m-9 text-white hover:text-primary transition-colors p-4 rounded-full"
 			>
@@ -116,9 +125,9 @@ const Navbar = () => {
 					>
 						<SiCss3 />
 					</NavItem>
-                    <Close setIsOpen={setIsOpen}>
-                        <AiFillCloseSquare />
-                    </Close>
+					<Close setIsOpen={setIsOpen}>
+						<AiFillCloseSquare />
+					</Close>
 				</div>
 				<Logout>
 					<RiLogoutBoxRFill />
