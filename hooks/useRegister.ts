@@ -29,7 +29,7 @@ const useRegister = () => {
 					type: "success",
 					isLoading: false,
 				});
-				router.push("/login");
+				router.push("/");
 			})
 			.catch((e) => {
 				setStatus("error");

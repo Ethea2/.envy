@@ -3,11 +3,24 @@ import Env from "@/models/envModel";
 import User from "@/models/userModel";
 import { NextResponse } from "next/server";
 
+export const GET = async () => {
+	try {
+		connectMongoDB();
+		const envs = await Env.find({});
+		return NextResponse.json(envs);
+	} catch (e) {
+		console.log(e);
+		return NextResponse.json(
+			{ message: "Something went wrong!" },
+			{ status: 500 },
+		);
+	}
+};
 
 export const POST = async (req: Request) => {
 	const { username, title, description } = await req.json();
 	try {
-        connectMongoDB()
+		connectMongoDB();
 		const user = await User.findOne({ username });
 		if (!user)
 			return NextResponse.json(

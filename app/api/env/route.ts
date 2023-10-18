@@ -3,6 +3,7 @@ import Env from "@/models/envModel";
 import User from "@/models/userModel";
 import { NextResponse } from "next/server";
 
-export const POST = () => {
-
-}
+export const POST = async (req: Request) => {
+	const { username } = await req.json();
+    
+};

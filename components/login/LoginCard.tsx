@@ -11,11 +11,11 @@ const LoginCard = () => {
 	const [password, setPassword] = useState<string>("");
 	const toastID = useRef<Id>();
 	const router = useRouter();
-	const { status } = useSession();
+	const { data: session, status } = useSession();
 
 	useEffect(() => {
 		if (status !== "loading") {
-			if (status === "authenticated") router.push("/");
+			if (status === "authenticated") router.push("/" + session?.user?.name);
 		}
 	}, [status]);
 

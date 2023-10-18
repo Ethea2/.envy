@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from "react";
 import axios from "axios";
-const useFetch = (url: string) => {
+const useFetchProjects = (url: string, username: string) => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 	const [data, setData] = useState<any>();
@@ -10,7 +11,7 @@ const useFetch = (url: string) => {
 			setLoading(true);
 			await axios({
 				method: "GET",
-				url: `${url}`,
+				url: `${url}${username}`,
 			})
 				.then((res) => {
 					setLoading(false);
@@ -28,4 +29,4 @@ const useFetch = (url: string) => {
 	return { data, loading, error };
 };
 
-export default useFetch;
+export default useFetchProjects;

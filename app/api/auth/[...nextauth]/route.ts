@@ -23,7 +23,6 @@ const authOptions: NextAuthOptions = {
 				if (!match) {
 					throw new Error("Wrong password");
 				}
-				console.log(user)
 				return {
 					name: user.username,
 					email: user.email,
@@ -39,8 +38,8 @@ const authOptions: NextAuthOptions = {
 		},
 	},
 	pages: {
-		signIn: "/login",
-		error: "/login",
+		signIn: "/",
+		error: "/",
 	},
 };
 
