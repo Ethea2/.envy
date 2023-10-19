@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-const AddProject = ({
+const AddProject = async ({
 	show,
 	handleShow,
 	username,
@@ -9,7 +9,10 @@ const AddProject = ({
 	handleShow: React.Dispatch<React.SetStateAction<boolean>>;
 	username: string;
 }) => {
-	
+	const submitProject = async () => {
+		"use server";
+	};
+
 	return (
 		<>
 			{show && (
