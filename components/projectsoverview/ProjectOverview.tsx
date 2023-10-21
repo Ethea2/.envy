@@ -8,6 +8,7 @@ const ProjectOverview = ({
 	projects: Array<ProjectType>;
 	username: string;
 }) => {
+	
 	return (
 		<div className="min-h-full grid grid-cols-1 md:grid-cols-3 justify-center justify-items-center items-start m-4 p-4 rounded border-2 border-dashed border-slate-600 bg-slate-800">
 			{projects?.map((project: ProjectType, key: number) => (
