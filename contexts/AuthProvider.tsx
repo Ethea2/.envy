@@ -10,5 +10,3 @@ interface Props {
 export const AuthProvider = ({ children }: Props) => {
 	return <SessionProvider>{children}</SessionProvider>;
 };
-
-//test push
