@@ -1,18 +1,17 @@
 import { connectMongoDB } from "@/libs/mongodb";
 import Env from "@/models/envModel";
-import User from "@/models/userModel";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {
 	try {
-		// const session = await getServerSession();
-		// if (!session || !session.user) {
-		// 	return NextResponse.json(
-		// 		{ message: "Unauthorized!" },
-		// 		{ status: 400 },
-		// 	);
-		// }
+		const session = await getServerSession();
+		if (!session || !session.user) {
+			return NextResponse.json(
+				{ message: "Unauthorized!" },
+				{ status: 400 },
+			);
+		}
 		connectMongoDB();
 		const { projectId, fileName } = await req.json();
 

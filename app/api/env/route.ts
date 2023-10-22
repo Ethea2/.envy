@@ -1,9 +1,6 @@
 import { connectMongoDB } from "@/libs/mongodb";
 import Env from "@/models/envModel";
-import User from "@/models/userModel";
-import { EnvType } from "@/types/envTypes";
 import { FileType } from "@/types/fileTypes";
-import { ProjectType } from "@/types/projectTypes";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import crypto from "node:crypto";
@@ -11,13 +8,13 @@ import { CipherGCMTypes, CipherKey } from "node:crypto";
 
 export const POST = async (req: Request) => {
 	try {
-		// const session = await getServerSession();
-		// if (!session || !session.user) {
-		// 	return NextResponse.json(
-		// 		{ message: "Unauthorized!" },
-		// 		{ status: 400 },
-		// 	);
-		// }
+		const session = await getServerSession();
+		if (!session || !session.user) {
+			return NextResponse.json(
+				{ message: "Unauthorized!" },
+				{ status: 400 },
+			);
+		}
 		connectMongoDB();
 		const { fileName, name, value, projectId } = await req.json();
 		const iv = crypto.randomBytes(16);
@@ -63,3 +60,5 @@ export const POST = async (req: Request) => {
 		return NextResponse.json({ message: "server error" }, { status: 500 });
 	}
 };
+
+

@@ -15,6 +15,7 @@ import { signOut } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const navVariants = {
 	open: {
@@ -94,6 +95,7 @@ const Navbar = () => {
 						selected={selected === 0}
 						id={0}
 						setSelected={setSelected}
+                        href="/"
 					>
 						<SiTailwindcss />
 					</NavItem>
@@ -101,13 +103,15 @@ const Navbar = () => {
 						selected={selected === 1}
 						id={1}
 						setSelected={setSelected}
-					>
+                        href="/"
+                    >
 						<SiReact />
 					</NavItem>
 					<NavItem
 						selected={selected === 2}
 						id={2}
 						setSelected={setSelected}
+                        href="/"
 					>
 						<SiJavascript />
 					</NavItem>
@@ -115,6 +119,7 @@ const Navbar = () => {
 						selected={selected === 3}
 						id={3}
 						setSelected={setSelected}
+                        href="/"
 					>
 						<SiFramer />
 					</NavItem>
@@ -122,6 +127,7 @@ const Navbar = () => {
 						selected={selected === 4}
 						id={4}
 						setSelected={setSelected}
+                        href="/"
 					>
 						<SiCss3 />
 					</NavItem>
@@ -142,9 +148,10 @@ interface Props {
 	selected: boolean;
 	id: number;
 	setSelected: React.Dispatch<SetStateAction<number>>;
+	href: string;
 }
 
-const NavItem = ({ children, selected, id, setSelected }: Props) => {
+const NavItem = ({ children, selected, id, setSelected, href }: Props) => {
 	return (
 		<motion.button
 			className="p-3 text-xl bg-slate-800 hover:bg-slate-700 rounded-md transition-colors relative"
@@ -152,17 +159,19 @@ const NavItem = ({ children, selected, id, setSelected }: Props) => {
 			whileHover={{ scale: 1.05 }}
 			whileTap={{ scale: 0.95 }}
 		>
-			<span className="block relative z-10">{children}</span>
-			<AnimatePresence>
-				{selected && (
-					<motion.span
-						className="absolute inset-0 rounded-md bg-indigo-600 z-0"
-						initial={{ scale: 0 }}
-						animate={{ scale: 1 }}
-						exit={{ scale: 0 }}
-					></motion.span>
-				)}
-			</AnimatePresence>
+			<Link href={href}>
+				<span className="block relative z-10">{children}</span>
+				<AnimatePresence>
+					{selected && (
+						<motion.span
+							className="absolute inset-0 rounded-md bg-indigo-600 z-0"
+							initial={{ scale: 0 }}
+							animate={{ scale: 1 }}
+							exit={{ scale: 0 }}
+						></motion.span>
+					)}
+				</AnimatePresence>
+			</Link>
 		</motion.button>
 	);
 };
