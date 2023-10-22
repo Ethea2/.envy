@@ -6,3 +6,8 @@ export interface ProjectType {
 	description: string;
 	files: Array<FileType>;
 }
+
+export interface ProjectPage {
+	projectName: string;
+	files: Array<FileType>;
+}

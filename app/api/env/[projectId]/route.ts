@@ -13,7 +13,6 @@ export const GET = async (
 ) => {
 	try {
         const session = await getServerSession();
-        console.log(session)
 		if (!session || !session.user) {
 			return NextResponse.json(
 				{ message: "Unauthorized!" },
@@ -43,7 +42,12 @@ export const GET = async (
 				envs: decryptedEnvs,
 			};
 		});
-		return NextResponse.json(decryptedData);
+		return NextResponse.json(
+            {
+                projectName: projects.title,
+                files: decryptedData
+            }
+        );
 	} catch (e) {
 		console.log(e);
 		return NextResponse.json({ message: "Server error!" }, { status: 500 });

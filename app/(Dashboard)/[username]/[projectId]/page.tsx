@@ -1,3 +1,7 @@
+import FileContainer from "@/components/filecontainer/FileContainer";
+import ProjectHeader from "@/components/projectheader/ProjectHeader";
+import { FileType } from "@/types/fileTypes";
+import { ProjectPage } from "@/types/projectTypes";
 import { headers } from "next/headers";
 const getFiles = async (projectId: string) => {
 	const files = await fetch(
@@ -7,10 +11,15 @@ const getFiles = async (projectId: string) => {
 	return files.json();
 };
 
-const ProjectPage = async ({ params }: { params: { projectId: string } }) => {
+const ProjectPage = async ({ params }: { params: { projectId: string }}) => {
 	const filesData = getFiles(params.projectId);
-	const files = await Promise.resolve(filesData);
-	return <div>{JSON.stringify(files)}</div>;
+	const files = await Promise.resolve<ProjectPage>(filesData);
+	return (
+		<div className="w-full h-full">
+			<ProjectHeader projectName={files.projectName}/>
+			<FileContainer files={files.files} />
+		</div>
+	);
 };
 
 export default ProjectPage;

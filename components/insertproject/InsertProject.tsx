@@ -17,7 +17,7 @@ const InsertProject = ({username}: {username: string}) => {
 			>
 				<AiOutlinePlusSquare />
 			</div>
-			<AddProject show={show} handleShow={setShow} username={username} />
+			<AddProject show={show} handleShow={setShow} />
 		</>
 	);
 };
