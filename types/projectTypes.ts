@@ -1,8 +1,8 @@
-import { EnvType } from "./envTypes";
+import { FileType } from "./fileTypes";
 
 export interface ProjectType {
 	_id: string;
 	title: string;
 	description: string;
-	envs?: Array<EnvType>;
+	files: Array<FileType>;
 }

@@ -1,21 +1,25 @@
 import { addProject } from "@/libs/addProject";
 import { SubmitButton } from "../form/button";
-import React from "react";
+import React, { useEffect } from "react";
+import { experimental_useFormState as useFormState } from "react-dom";
 const initialState = {
 	message: null,
+	type: null,
 };
 
 const AddProject = async ({
 	show,
 	handleShow,
-	username,
 }: {
 	show: boolean;
 	handleShow: React.Dispatch<React.SetStateAction<boolean>>;
-	username: string;
 }) => {
-	const addProjectUsername = addProject.bind(null, username);
-	
+	const [state, formAction] = useFormState(addProject, initialState);
+	// useEffect(() => {
+	// 	if (!show) {
+	// 		state.message = null;
+	// 	}
+	// }, [state]);
 	return (
 		<>
 			{show && (
@@ -27,7 +31,7 @@ const AddProject = async ({
 					<div className="flex flex-col p-8 justify-start items-start w-[90%] md:w-[40%] h-fit rounded-2xl bg-base-100 border-dashed border-4 border-primary">
 						<div className="text-5xl">Add Project!</div>
 						<div className="divider w-full before:bg-primary after:bg-primary"></div>
-						<form action={addProjectUsername} className="w-full">
+						<form action={formAction} className="w-full">
 							<div className="flex flex-col w-full mt-5">
 								<label>Project Title</label>
 								<input
@@ -53,7 +57,10 @@ const AddProject = async ({
 								>
 									Cancel
 								</button>
-								<SubmitButton handleShow={handleShow}/>
+								<SubmitButton
+									handleShow={handleShow}
+									state={state}
+								/>
 							</div>
 						</form>
 					</div>

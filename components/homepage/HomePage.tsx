@@ -3,12 +3,12 @@ import ProfileContainer from "@/components/profile/ProfileContainer";
 import ProjectOverview from "@/components/projectsoverview/ProjectOverview";
 
 const getProfile = async(username: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${username}`, {next: {tags: ['profile']}})
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${username}`, {next: {tags: ['profile'], revalidate: 100}})
     return res.json()
 }
 
 const getProjects = async(username: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/project/${username}`, {next: {tags: ['projects']}})
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/project/${username}`, {next: {tags: ['projects'], revalidate: 100}})
     return res.json()
 }
 

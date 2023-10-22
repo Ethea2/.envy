@@ -10,23 +10,25 @@ const envSchema = new Schema({
 		type: String,
 	},
 	files: [
-        {
-            fileName: {
-                type: String, 
-                required: true,
-            },
-            envs: {
-                name: {
-                    type: String,
-                },
-                value: {
-                    type: String,
-                },
-                iv: {
-                    type: String,
-                },
-            },
-        },
+		{
+			fileName: {
+				type: String,
+				required: true,
+			},
+			envs: [
+				{
+					name: {
+						type: String,
+					},
+					value: {
+						type: String,
+					},
+					iv: {
+						type: String,
+					},
+				},
+			],
+		},
 	],
 });
 
