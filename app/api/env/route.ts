@@ -8,13 +8,13 @@ import { CipherGCMTypes, CipherKey } from "node:crypto";
 
 export const POST = async (req: Request) => {
 	try {
-		const session = await getServerSession();
-		if (!session || !session.user) {
-			return NextResponse.json(
-				{ message: "Unauthorized!" },
-				{ status: 400 },
-			);
-		}
+		// const session = await getServerSession();
+		// if (!session || !session.user) {
+		// 	return NextResponse.json(
+		// 		{ message: "Unauthorized!" },
+		// 		{ status: 400 },
+		// 	);
+		// }
 		connectMongoDB();
 		const { fileName, name, value, projectId } = await req.json();
 		const iv = crypto.randomBytes(16);
