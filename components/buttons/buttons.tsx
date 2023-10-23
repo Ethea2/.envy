@@ -1,10 +1,12 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, SetStateAction } from "react";
 import { BsFillClipboardFill } from "react-icons/bs";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { EnvType } from "@/types/envTypes";
 import { toast } from "react-toastify";
+import AddEnv from "../modals/AddEnv";
+import { FileType } from "@/types/fileTypes";
 
 export const CopyButton = ({ env }: { env: EnvType }) => {
 	const buttonVariants = {
@@ -57,23 +59,34 @@ export const CopyAll = ({ envs }: { envs: Array<EnvType> }) => {
 };
 
 export const AddButton = ({
-	setShow,
+	fileName,
+	projectId,
 }: {
-	setShow: React.Dispatch<React.SetStateAction<boolean>>;
+	fileName: string;
+	projectId: string;
 }) => {
+	const [show, setShow] = useState<boolean>(false);
 	const buttonVariants = {
 		initial: { scale: 1 },
 		pressed: { scale: 0.95 },
 	};
 
 	return (
-		<motion.button
-			className="p-3 text-xl bg-slate-800 hover:bg-slate-700 rounded-md transition-colors relative"
-			whileTap="pressed"
-			variants={buttonVariants}
-			onClick={() => setShow(true)}
-		>
-			<AiFillPlusCircle />
-		</motion.button>
+		<>
+			<AddEnv
+				show={show}
+				handleShow={setShow}
+				projectId={projectId}
+				fileName={fileName}
+			/>
+			<motion.button
+				className="p-3 text-xl bg-slate-800 hover:bg-slate-700 rounded-md transition-colors relative"
+				whileTap="pressed"
+				variants={buttonVariants}
+				onClick={() => setShow(true)}
+			>
+				<AiFillPlusCircle />
+			</motion.button>
+		</>
 	);
 };

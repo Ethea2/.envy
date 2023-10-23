@@ -17,7 +17,7 @@ const ProjectPage = async ({ params }: { params: { projectId: string }}) => {
 	return (
 		<div className="w-full h-full">
 			<ProjectHeader projectName={files.projectName}/>
-			<FileContainer files={files.files} />
+			<FileContainer files={files.files} projectId={params.projectId}/>
 		</div>
 	);
 };

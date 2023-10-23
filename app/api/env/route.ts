@@ -2,19 +2,20 @@ import { connectMongoDB } from "@/libs/mongodb";
 import Env from "@/models/envModel";
 import { FileType } from "@/types/fileTypes";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import crypto from "node:crypto";
 import { CipherGCMTypes, CipherKey } from "node:crypto";
 
 export const POST = async (req: Request) => {
 	try {
-		// const session = await getServerSession();
-		// if (!session || !session.user) {
-		// 	return NextResponse.json(
-		// 		{ message: "Unauthorized!" },
-		// 		{ status: 400 },
-		// 	);
-		// }
+		const session = await getServerSession();
+		if (!session || !session.user) {
+			return NextResponse.json(
+				{ message: "Unauthorized!" },
+				{ status: 400 },
+			);
+		}
 		connectMongoDB();
 		const { fileName, name, value, projectId } = await req.json();
 		const iv = crypto.randomBytes(16);
@@ -54,11 +55,10 @@ export const POST = async (req: Request) => {
 		project.files[fileIndex as number].envs.push(newEnv);
 
 		project.save();
+		revalidatePath(`/${session.user.name}/${projectId}`);
 		return NextResponse.json({ message: "ENV saved" });
 	} catch (e) {
 		console.log(e);
 		return NextResponse.json({ message: "server error" }, { status: 500 });
 	}
 };
-
-
